@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="referrer" content="no-referrer">
+    <title>PhimHay - Trải Nghiệm Điện Ảnh Đỉnh Cao</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="global-loader">
+        <div class="spinner"></div>
+        <div style="color: var(--primary-color); font-weight: bold; margin-top: 10px;">Đang tải dữ liệu...</div>
+    </div>
+
+    <div id="cinema-overlay" onclick="toggleCinemaMode()"></div>
+
+    <header id="header">
+        <div class="header-top">
+            <a class="logo" onclick="initHomePage()"><i class="fas fa-play-circle"></i> PhimHay</a>
+            <div class="header-right">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm phim, diễn viên..." onkeypress="if(event.key === 'Enter') handleSearch()">
+                    <button onclick="handleSearch()"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-links">
+            <div class="nav-item" onclick="initHomePage()">Trang Chủ</div>
+            <div class="nav-item" onclick="loadGrid('v1/api/danh-sach/phim-bo', 'Phim Bộ')">Phim Bộ</div>
+            <div class="nav-item" onclick="loadGrid('v1/api/danh-sach/phim-le', 'Phim Lẻ')">Phim Lẻ</div>
+            <div class="nav-item nav-dropdown" onclick="toggleMobileMenu(event, 'genreDropdown')">
+                Thể loại <i class="fas fa-chevron-down"></i>
+                <div class="dropdown-menu" id="genreDropdown"></div>
+            </div>
+            <div class="nav-item nav-dropdown" onclick="toggleMobileMenu(event, 'countryDropdown')">
+                Quốc gia <i class="fas fa-chevron-down"></i>
+                <div class="dropdown-menu" id="countryDropdown"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div id="home-view">
+            <section class="hero-section" id="heroSection">
+                <div id="heroBackgrounds"></div>
+                <div class="hero-content" id="heroContent"></div>
+                <div class="hero-thumbnails" id="heroThumbnails"></div>
+            </section>
+
+            <section class="trending-section">
+                <div class="trending-grid">
+                    <div class="trending-col">
+                        <h3 class="trending-title"><i class="fas fa-fire" style="color:#ff6b6b"></i> SÔI NỔI NHẤT</h3>
+                        <div class="trending-list" id="hotList"></div>
+                    </div>
+                    <div class="trending-col">
+                        <h3 class="trending-title"><i class="fas fa-heart" style="color:#ff9ff3"></i> YÊU THÍCH NHẤT</h3>
+                        <div class="trending-list" id="favList"></div>
+                    </div>
+                    <div class="trending-col">
+                        <h3 class="trending-title"><i class="fas fa-tags" style="color:#feca57"></i> THỂ LOẠI HOT</h3>
+                        <div class="trending-list" id="hotGenresList"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="homepage-content" class="category-sliders"></section>
+        </div>
+
+        <div id="grid-view" style="display: none;">
+            <div class="section-header" id="gridTitle">Danh Sách Phim</div>
+            <div class="movie-grid" id="movieGrid"></div>
+            <div class="pagination" id="pagination">
+                <button class="page-btn" id="btnPrev" onclick="changePage(-1)">« Trước</button>
+                <span>Trang <span id="currentPage">1</span> / <span id="totalPages">1</span></span>
+                <button class="page-btn" id="btnNext" onclick="changePage(1)">Sau »</button>
+            </div>
+        </div>
+
+        <div id="detail-view" style="display: none;">
+            <div class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Quay lại trang trước</div>
+            
+            <div class="player-container">
+                <div class="player-toolbar">
+                    <button class="btn-tool" onclick="toggleCinemaMode()"><i class="fas fa-lightbulb"></i> Tắt đèn</button>
+                </div>
+                <div class="player-wrapper" id="playerWrapper"></div>
+            </div>
+            
+            <div id="movieDetailContent"></div>
+            <div id="episodeSection" class="episode-section"></div>
+
+            <div class="section-header" style="margin-top: 50px; border-color: var(--primary-color);">Có Thể Bạn Sẽ Thích</div>
+            <div class="movie-grid" id="relatedMoviesGrid"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col brand-col">
+                <h2 class="footer-logo"><i class="fas fa-play-circle"></i> PhimHay</h2>
+                <p class="footer-desc">PhimHay là nền tảng xem phim trực tuyến hoàn toàn miễn phí, mang đến trải nghiệm điện ảnh đỉnh cao với kho phim khổng lồ, chất lượng FHD và tốc độ load cực nhanh. Chúng tôi luôn cập nhật liên tục các bộ phim mới nhất.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Danh Mục Nổi bật</h3>
+                <a href="#" onclick="loadGrid('v1/api/danh-sach/phim-bo', 'Phim Bộ')">Phim Bộ Mới</a>
+                <a href="#" onclick="loadGrid('v1/api/danh-sach/phim-le', 'Phim Lẻ Mới')">Phim Lẻ Cập Nhật</a>
+                <a href="#" onclick="loadGrid('v1/api/quoc-gia/han-quoc', 'Phim Hàn Quốc')">Phim Hàn Quốc</a>
+                <a href="#" onclick="loadGrid('v1/api/quoc-gia/trung-quoc', 'Phim Trung Quốc')">Phim Trung Quốc</a>
+            </div>
+            <div class="footer-col">
+                <h3>Hỗ Trợ Khách Hàng</h3>
+                <a href="#">Điều khoản sử dụng</a>
+                <a href="#">Chính sách bảo mật</a>
+                <a href="#">Khiếu nại bản quyền</a>
+                <a href="#">Liên hệ quảng cáo</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 PhimHay - Nền tảng xem phim chất lượng cao.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
