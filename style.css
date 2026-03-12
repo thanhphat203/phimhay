@@ -25,12 +25,11 @@ header.scrolled { background: var(--nav-bg); backdrop-filter: blur(10px); box-sh
 .nav-item:hover { color: var(--primary-color); }
 .nav-item i { font-size: 11px; margin-left: 4px; }
 
-/* FIX: Dropdown Desktop - Căn lề phải để không bị tràn màn hình */
+/* FIX: Dropdown Desktop */
 .dropdown-menu { position: absolute; top: 100%; right: 0; left: auto; background: #1a1c24; padding: 20px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.9); grid-template-columns: repeat(4, 1fr); gap: 12px 25px; min-width: 450px; border: 1px solid rgba(255,255,255,0.05); display: none; }
 .dropdown-item { color: var(--text-muted); font-size: 14px; transition: 0.2s; white-space: nowrap; padding: 5px 0; display: block;}
 .dropdown-item:hover { color: var(--primary-color); transform: translateX(3px); }
 
-/* Hiệu ứng hiển thị Menu trên máy tính */
 @media(min-width: 769px) {
     .nav-dropdown:hover .dropdown-menu { display: grid; animation: fadeIn 0.3s ease; }
 }
@@ -189,7 +188,6 @@ footer { background: #07080b; padding: 60px 5% 20px; border-top: 1px solid rgba(
     .nav-links::-webkit-scrollbar { display: none; }
     .dropdown-menu { position: fixed; top: 110px; left: 0; width: 100vw; max-height: 60vh; overflow-y: auto; background: rgba(15, 17, 21, 0.98); backdrop-filter: blur(15px); grid-template-columns: repeat(2, 1fr); padding: 20px; border-radius: 0 0 15px 15px; z-index: 2000; display: none; border: none; border-top: 1px solid var(--primary-color); }
     .dropdown-menu.show-mobile { display: grid !important; animation: slideDown 0.3s ease; }
-    /* FIX: Tăng diện tích chạm trên điện thoại */
     .dropdown-item { padding: 12px 0; font-size: 15px; } 
     @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     .hero-section { height: 60vh; }
@@ -216,9 +214,6 @@ footer { background: #07080b; padding: 60px 5% 20px; border-top: 1px solid rgba(
     .footer-container { flex-direction: column; gap: 30px; }
 }
 
-/* =======================================================
-   CSS NÂNG CẤP (LOADING & CHẾ ĐỘ RẠP PHIM)
-======================================================== */
 #global-loader {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(11, 12, 16, 0.9); z-index: 9999;
@@ -251,3 +246,160 @@ body.cinema-mode .player-container {
     display: flex; align-items: center; gap: 8px;
 }
 .btn-tool:hover { background: var(--primary-color); color: #000; border-color: var(--primary-color); }
+
+/* =========================================
+   CSS CHO BANNER QUẢNG CÁO SHOPEE (NỔI BẬT)
+========================================= */
+.ad-banner-section {
+    padding: 20px 5%;
+    margin-bottom: 20px;
+}
+
+@keyframes glowBorder {
+    from { box-shadow: 0 0 10px rgba(246, 199, 0, 0.2); border-color: rgba(246, 199, 0, 0.3); }
+    to { box-shadow: 0 0 25px rgba(246, 199, 0, 0.6); border-color: rgba(246, 199, 0, 0.8); }
+}
+
+.ad-container {
+    display: flex;
+    background: linear-gradient(135deg, #1a1c24 0%, #0b0c10 100%);
+    border: 2px solid rgba(246, 199, 0, 0.5);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+    animation: glowBorder 2s infinite alternate; /* Hiệu ứng viền phát sáng nhấp nháy */
+}
+
+.ad-container:hover {
+    transform: translateY(-5px);
+    animation: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 15px 40px rgba(246, 199, 0, 0.3);
+}
+
+.ad-image-wrapper {
+    position: relative;
+    width: 35%;
+    min-height: 250px;
+    background-color: #07080b;
+    flex-shrink: 0;
+}
+
+.ad-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.ad-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--primary-color);
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid var(--primary-color);
+    z-index: 2;
+    backdrop-filter: blur(4px);
+    text-transform: uppercase;
+}
+
+.ad-content {
+    padding: 30px;
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ad-title {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 12px;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.ad-desc {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.ad-features {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.ad-features span {
+    color: #2ed573;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+@keyframes pulseBtn {
+    0% { box-shadow: 0 0 0 0 rgba(238, 82, 83, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(238, 82, 83, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(238, 82, 83, 0); }
+}
+
+.ad-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(90deg, #ff4757, #ff6b81); /* Đỏ nổi bật hơn */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    width: fit-content;
+    animation: pulseBtn 2s infinite; /* Hiệu ứng tỏa sóng cho nút bấm */
+}
+
+.ad-btn:hover {
+    transform: scale(1.05);
+    animation: none;
+    box-shadow: 0 5px 20px rgba(255, 71, 87, 0.6);
+    color: white;
+}
+
+/* Responsive cho Mobile */
+@media(max-width: 768px) {
+    .ad-container {
+        flex-direction: column;
+    }
+    .ad-image-wrapper {
+        width: 100%;
+        height: 220px;
+    }
+    .ad-content {
+        width: 100%;
+        padding: 20px;
+    }
+    .ad-title {
+        font-size: 20px;
+    }
+    .ad-features {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .ad-btn {
+        width: 100%;
+    }
+}
